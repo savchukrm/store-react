@@ -1,0 +1,55 @@
+.homeTop {
+  margin-top: 30px;
+  margin-bottom: 40px;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.search {
+  margin-left: 55px;
+  display: flex;
+  border: 1px solid #e8e8e8;
+}
+
+.search img {
+  padding: 5px 0 0 9px;
+  width: 40px;
+  height: 36px;
+}
+
+input {
+  font-size: 14;
+  border: 0;
+  padding: 10px;
+}
+
+.cardsBlock {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+  margin-left: 21px;
+}
+
+@media (max-width: 1080px) {
+  .search {
+    margin-left: 0;
+    margin-top: 10px;
+  }
+}
+
+@media (max-width: 950px) {
+  .homeTop {
+    margin-top: 20px;
+  }
+}
+
+@media (max-width: 575px) {
+  .search {
+    margin-top: 20px;
+  }
+  .cardsBlock {
+    margin-left: 0;
+  }
+}

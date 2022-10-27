@@ -1,0 +1,30 @@
+.favorite {
+  margin: 40px;
+}
+
+.favoriteTop {
+  display: flex;
+  align-items: center;
+  margin-bottom: 40px;
+}
+
+.cardsBlock {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+}
+
+.title {
+  margin-left: 10px;
+  font-weight: 400;
+  font-size: 28px;
+}
+
+@media (max-width: 575px) {
+  .emptyBlock {
+    height: 80vh;
+  }
+  .favorite {
+    margin: 20px 15px;
+  }
+}

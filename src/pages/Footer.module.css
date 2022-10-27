@@ -1,0 +1,21 @@
+.footer {
+  margin-top: 20px;
+  border-top: 1px solid #e8e8e8;
+  padding: 20px 0 20px 10px;
+}
+
+.p {
+  padding-left: 10px;
+  font-size: 12px;
+  opacity: 0.5;
+}
+
+.span {
+  font-weight: 600;
+}
+
+@media (max-width: 575px) {
+  .footer {
+    padding: 20px 10px;
+  }
+}
