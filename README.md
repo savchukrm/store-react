@@ -7,7 +7,7 @@ Opportunities:
 - search on the website
 - sending the order
 - information about purchased items
--adaptive for all devices
+- adaptive for all devices
 
 Is also used :
 - React Context
