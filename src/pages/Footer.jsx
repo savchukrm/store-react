@@ -4,7 +4,7 @@ const Footer = () => {
   return (
     <footer className={styles.footer}>
       <div>
-        create by{' '}
+        created by{' '}
         <span className={styles.span}>
           <a
             target="_blank"
