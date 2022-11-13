@@ -27,11 +27,7 @@ function App() {
 
   useEffect(() => {
     async function fetchData() {
-      const category = categoryId ? `category=${categoryId}` : ' ';
       try {
-        const itemResponse = await axios.get(
-          `https://6351072b3e9fa1244e535a4a.mockapi.io/items?${category}`
-        );
         const cartResponse = await axios.get(
           'https://6351072b3e9fa1244e535a4a.mockapi.io/cart'
         );
@@ -43,6 +39,21 @@ function App() {
 
         setCartItems(cartResponse.data);
         setFavorites(favoriteResponse.data);
+      } catch (error) {
+        alert('Error when requesting data');
+      }
+    }
+    fetchData();
+  }, []);
+
+  useEffect(() => {
+    async function fetchData() {
+      const category = categoryId ? `category=${categoryId}` : ' ';
+      try {
+        const itemResponse = await axios.get(
+          `https://6351072b3e9fa1244e535a4a.mockapi.io/items?${category}`
+        );
+
         setItems(itemResponse.data);
       } catch (error) {
         alert('Error when requesting data');
