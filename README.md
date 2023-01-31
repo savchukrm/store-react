@@ -1,4 +1,4 @@
-# Store bags with React
+# Bag shop with React
 
 Opportunities:
 - add products to favorites
