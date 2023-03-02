@@ -1,21 +1,20 @@
-import { Link, Outlet } from 'react-router-dom';
-import { useCart } from '../hooks/useCart';
+import { useSelector } from 'react-redux';
 
-import { useContext } from 'react';
-import AppContext from '../context';
+import { Link, Outlet } from 'react-router-dom';
 
 import styles from './Header.module.css';
 
 function Header({ onClickCart }) {
-  const { totalPrice } = useCart();
-  const { favorites } = useContext(AppContext);
+  const { totalPrice } = useSelector((state) => state.drawer);
+  const { items } = useSelector((state) => state.favorite);
+
   return (
     <>
       <header className={styles.header}>
         <div className={styles.headerLeft}>
           <Link to="/">
             <div>
-              <h3 className={styles.logo}>Bags store</h3>
+              <h3 className={styles.logo}>Store bags</h3>
               <p className={styles.p}>Store branded bags</p>
             </div>
           </Link>
@@ -33,7 +32,7 @@ function Header({ onClickCart }) {
                   height={38}
                   className={styles.mr20}
                   src={
-                    favorites.length > 0
+                    items.length > 0
                       ? 'img/fill_heart.svg'
                       : 'img/heart_icon.svg'
                   }

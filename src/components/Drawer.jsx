@@ -1,42 +1,19 @@
-import { useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+
+import { removeItem } from '../redux/drawer/slice';
+
 import { v4 as uuidv4 } from 'uuid';
-import axios from 'axios';
 
-import { useCart } from '../hooks/useCart';
 import Info from './Info';
-
 import styles from './Drawer.module.css';
 
-const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+const Drawer = ({ onClose, opened }) => {
+  const dispatch = useDispatch();
 
-const Drawer = ({ onClose, items = [], onRemove, opened }) => {
-  const { cartItems, setCartItems, totalPrice } = useCart();
-  const [orderId, setOrderId] = useState(null);
-  const [isOrderComplete, setIsOrderComplete] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
+  const { cells, totalPrice } = useSelector((state) => state.drawer);
 
-  const onClickOrder = async () => {
-    try {
-      setIsLoading(true);
-      const { data } = await axios.post(
-        'https://6351072b3e9fa1244e535a4a.mockapi.io/orders',
-        { items: cartItems }
-      );
-      setOrderId(data.id);
-      setIsOrderComplete(true);
-      setCartItems([]);
-
-      for (let i = 0; i < cartItems.length; i++) {
-        const item = cartItems[i];
-        await axios.delete(
-          'https://6351072b3e9fa1244e535a4a.mockapi.io/cart/' + item.id
-        );
-        await delay(1000);
-      }
-    } catch (error) {
-      alert('Error during creation of an order');
-    }
-    setIsLoading(false);
+  const onRemove = (a) => {
+    dispatch(removeItem(a));
   };
 
   return (
@@ -52,10 +29,10 @@ const Drawer = ({ onClose, items = [], onRemove, opened }) => {
           />
         </div>
 
-        {items.length > 0 ? (
+        {cells.length > 0 ? (
           <>
             <div className={styles.items}>
-              {items.map((obj) => (
+              {cells.map((obj) => (
                 <div key={uuidv4()} className={styles.cartItem}>
                   <img
                     className="mr-15"
@@ -88,25 +65,17 @@ const Drawer = ({ onClose, items = [], onRemove, opened }) => {
                   <b>For free</b>
                 </li>
               </ul>
-              <button
-                disabled={isLoading}
-                className="redButton"
-                onClick={onClickOrder}
-              >
-                proceed to checkout
-              </button>
+              <button className="redButton">proceed to checkout</button>
             </div>
           </>
         ) : (
           <Info
             title={
-              isOrderComplete
-                ? `Your order #${orderId} has been successfully completed`
+              false
+                ? `Your order #1 has been successfully completed`
                 : 'You have no items in your shopping bag'
             }
-            image={
-              isOrderComplete ? 'img/success_icon.png' : 'img/empty_bag.png'
-            }
+            image={false ? 'img/success_icon.png' : 'img/empty_bag.png'}
           />
         )}
       </div>
