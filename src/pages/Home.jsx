@@ -1,7 +1,11 @@
+import { useSelector } from 'react-redux';
+
+import { useAppDispatch } from '../redux/store';
+import { setCategoryId } from '../redux/filter/slice';
+
 import { v4 as uuidv4 } from 'uuid';
 
 import Card from '../components/Card';
-
 import styles from './Home.module.css';
 
 const data = [
@@ -12,29 +16,23 @@ const data = [
   { name: 'Saint Laurent' },
 ];
 
-function Home({
-  items,
-  searchValue,
-  onChangeSearchInput,
-  onAddToFavorite,
-  onAddToCart,
-  isLoading,
-  categoryId,
-  setCategoryId,
-}) {
+function Home({ searchValue, onChangeSearchInput }) {
+  const dispatch = useAppDispatch();
+
+  const { categoryId } = useSelector((state) => state.filter);
+  const { items, status } = useSelector((state) => state.data);
+
+  const onChangeCategory = (id) => {
+    dispatch(setCategoryId(id));
+  };
+
   const renderItems = () => {
     const filtredItems = items.filter((item) =>
       item.name.toLowerCase().includes(searchValue.toLowerCase())
     );
-    return (isLoading ? [...Array(10)] : filtredItems).map((item) => (
-      <Card
-        key={uuidv4()}
-        {...item}
-        onPlus={(item) => onAddToCart(item)}
-        onFavorite={(obj) => onAddToFavorite(obj)}
-        isLoading={isLoading}
-      />
-    ));
+    return (status === 'loading' ? [...Array(10)] : filtredItems).map(
+      (item) => <Card key={uuidv4()} {...item} />
+    );
   };
 
   return (
@@ -43,7 +41,7 @@ function Home({
         <ul className="tags">
           {data.map((obj, i) => (
             <li
-              onClick={() => setCategoryId(i)}
+              onClick={() => onChangeCategory(i)}
               className={categoryId === i ? 'active' : ''}
               key={uuidv4()}
             >

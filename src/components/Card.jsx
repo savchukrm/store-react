@@ -1,41 +1,38 @@
-import { useContext, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+
+import { addItem } from '../redux/drawer/slice';
+import { addFavorite } from '../redux/favorite/slice';
+
 import { useMediaQuery } from 'react-responsive';
 
 import SkeletonBrowser from './SkeletonBrowser';
 import SkeletonApp from './SkeletonApp';
 
-import AppContext from '../context';
-
 import styles from './Card.module.css';
 
-function Card({
-  id,
-  name,
-  imageUrl,
-  price,
-  onFavorite,
-  onPlus,
-  favorited = false,
-  isLoading = false,
-}) {
-  const { isItemAdded, isFavoriteAdded } = useContext(AppContext);
-  const [isFavorite, setIsFavorite] = useState(favorited);
-  const obj = { id, parentId: id, name, imageUrl, price };
-
+function Card({ id, name, imageUrl, price }) {
+  const dispatch = useDispatch();
   const isDesktop = useMediaQuery({ maxWidth: 555 });
 
-  const onClickPlus = () => {
-    onPlus(obj);
+  const { cells } = useSelector((state) => state.drawer);
+  const { status } = useSelector((state) => state.data);
+  const { items } = useSelector((state) => state.favorite);
+
+  const obj = { id, name, imageUrl, price };
+
+  const onClickAdd = () => {
+    dispatch(addItem(obj));
+  };
+  const onClickFavorite = () => {
+    dispatch(addFavorite(obj));
   };
 
-  const onClickFavorite = () => {
-    onFavorite(obj);
-    setIsFavorite(!isFavorite);
-  };
+  const findItem = cells.some((i) => i.id === obj.id);
+  const findFavorite = items.some((i) => i.id === obj.id);
 
   return (
     <div className={styles.card}>
-      {isLoading ? (
+      {status === 'loading' ? (
         isDesktop ? (
           <SkeletonApp />
         ) : (
@@ -43,16 +40,12 @@ function Card({
         )
       ) : (
         <>
-          {onFavorite && (
-            <div className={styles.favorite} onClick={onClickFavorite} c>
-              <img
-                src={
-                  isFavoriteAdded(id) ? 'img/liked.svg' : 'img/heart-off.svg'
-                }
-                alt="Is Favorite"
-              />
-            </div>
-          )}
+          <div className={styles.favorite} onClick={onClickFavorite} c>
+            <img
+              src={findFavorite ? 'img/liked.svg' : 'img/heart-off.svg'}
+              alt="Is Favorite"
+            />
+          </div>
           <img className={styles.bag} src={imageUrl} alt="bag"></img>
           <h5 className={styles.title}>{name}</h5>
           <div className={styles.cardInfo}>
@@ -60,18 +53,14 @@ function Card({
               <p>Price:</p>
               <b>{price}$</b>
             </div>
-            {onPlus && (
-              <img
-                onClick={onClickPlus}
-                className="button"
-                width={28}
-                height={28}
-                src={
-                  isItemAdded(id) ? 'img/tick_icon.svg' : 'img/plus_icon.png'
-                }
-                alt="plus-icon"
-              />
-            )}
+            <img
+              onClick={onClickAdd}
+              className="button"
+              width={28}
+              height={28}
+              src={findItem ? 'img/tick_icon.svg' : 'img/plus_icon.png'}
+              alt="plus-icon"
+            />
           </div>{' '}
         </>
       )}
