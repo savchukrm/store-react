@@ -1,8 +1,6 @@
 import { Link } from 'react-router-dom';
 import { v4 as uuidv4 } from 'uuid';
-import { useEffect, useState } from 'react';
-
-import axios from 'axios';
+import { useState } from 'react';
 
 import Card from '../components/Card';
 import styles from './Orders.module.css';
@@ -11,20 +9,6 @@ const Orders = () => {
   const [orders, setOrders] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
-  useEffect(() => {
-    (async () => {
-      try {
-        const { data } = await axios.get(
-          'https://6351072b3e9fa1244e535a4a.mockapi.io/orders'
-        );
-        setOrders(data.map((obj) => obj));
-        setIsLoading(false);
-      } catch (error) {
-        alert('Error when requesting orders');
-        console.error(error);
-      }
-    })();
-  }, []);
   return (
     <div className={styles.order}>
       <div>
