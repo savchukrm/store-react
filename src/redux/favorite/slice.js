@@ -5,7 +5,7 @@ const initialState = {
 };
 
 const favoriteSlice = createSlice({
-  name: 'drawer',
+  name: 'favorite',
   initialState,
   reducers: {
     addFavorite(state, action) {

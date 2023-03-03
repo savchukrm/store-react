@@ -1,22 +1,20 @@
 import { Link } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+
 import { v4 as uuidv4 } from 'uuid';
-import { useState } from 'react';
 
 import Card from '../components/Card';
 import styles from './Orders.module.css';
 
 const Orders = () => {
-  const [orders, setOrders] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
+  const { orders } = useSelector((state) => state.orders);
+
+  const isLoading = false;
 
   return (
     <div className={styles.order}>
       <div>
-        {isLoading ? (
-          <div className={styles.loading}>
-            <h2>Is loading...</h2>
-          </div>
-        ) : orders.length > 0 ? (
+        {orders.length > 0 ? (
           <>
             {' '}
             <div className={styles.orderTop}>
@@ -32,15 +30,21 @@ const Orders = () => {
             </div>{' '}
             {orders.map((obj) => (
               <div className={styles.block} key={uuidv4()}>
-                <h3 className="mb-20">
-                  Order #{obj.id} for the amount of{' '}
-                  {obj.items
-                    .map((obj) => obj.price)
-                    .reduce((sum, price) => sum + Number(price), 0)}
-                  ${' '}
-                </h3>
+                <h4 className={styles.h4}>
+                  Order{' '}
+                  <span className={styles.span}>
+                    #{Math.floor(100000 + Math.random() * 900000)}
+                  </span>{' '}
+                  for the amount of{` `}
+                  <span className={styles.span}>
+                    {obj
+                      .map((obj) => obj.price)
+                      .reduce((sum, price) => sum + Number(price), 0)}
+                    $
+                  </span>
+                </h4>
                 <div className={styles.card}>
-                  {obj.items.map((obj) => (
+                  {obj.map((obj) => (
                     <Card key={uuidv4()} {...obj} loading={isLoading} />
                   ))}
                 </div>

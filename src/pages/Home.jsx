@@ -31,7 +31,7 @@ function Home({ searchValue, onChangeSearchInput }) {
       item.name.toLowerCase().includes(searchValue.toLowerCase())
     );
     return (status === 'loading' ? [...Array(10)] : filtredItems).map(
-      (item) => <Card key={uuidv4()} {...item} />
+      (item) => <Card key={uuidv4()} {...item} onPlus={true} />
     );
   };
 

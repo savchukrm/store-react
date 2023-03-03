@@ -20,7 +20,7 @@ const Favorite = () => {
           </div>
           <div className={styles.cardsBlock}>
             {items.map((obj) => (
-              <Card {...obj} />
+              <Card {...obj} onPlus={true} />
             ))}
           </div>
         </>

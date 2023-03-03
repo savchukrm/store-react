@@ -26,11 +26,15 @@ const drawerSlice = createSlice({
       state.cells = state.cells.filter((obj) => obj.id !== action.payload);
       state.totalPrice = calcTotalPrice(state.cells);
     },
+    clearDrawer(state, action) {
+      state.cells = [];
+      state.totalPrice = 0;
+    },
   },
 });
 
 export const selectDrawer = (state) => state.drawer;
 
-export const { addItem, removeItem } = drawerSlice.actions;
+export const { addItem, removeItem, clearDrawer } = drawerSlice.actions;
 
 export default drawerSlice.reducer;

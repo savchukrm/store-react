@@ -10,7 +10,7 @@ import SkeletonApp from './SkeletonApp';
 
 import styles from './Card.module.css';
 
-function Card({ id, name, imageUrl, price }) {
+function Card({ id, name, imageUrl, price, onPlus }) {
   const dispatch = useDispatch();
   const isDesktop = useMediaQuery({ maxWidth: 555 });
 
@@ -53,14 +53,16 @@ function Card({ id, name, imageUrl, price }) {
               <p>Price:</p>
               <b>{price}$</b>
             </div>
-            <img
-              onClick={onClickAdd}
-              className="button"
-              width={28}
-              height={28}
-              src={findItem ? 'img/tick_icon.svg' : 'img/plus_icon.png'}
-              alt="plus-icon"
-            />
+            {onPlus && (
+              <img
+                onClick={onClickAdd}
+                className="button"
+                width={28}
+                height={28}
+                src={findItem ? 'img/tick_icon.svg' : 'img/plus_icon.png'}
+                alt="plus-icon"
+              />
+            )}
           </div>{' '}
         </>
       )}

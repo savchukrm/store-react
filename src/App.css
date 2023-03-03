@@ -16,7 +16,7 @@
 }
 
 .redButton:disabled {
-  background-color: #bebebe !important;
+  background-color: #bebebe;
   cursor: default;
 }
 

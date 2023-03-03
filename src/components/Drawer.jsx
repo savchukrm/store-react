@@ -1,19 +1,35 @@
+import { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
-import { removeItem } from '../redux/drawer/slice';
+import { removeItem, clearDrawer } from '../redux/drawer/slice';
+import { addOrder } from '../redux/orders/slice';
 
 import { v4 as uuidv4 } from 'uuid';
 
 import Info from './Info';
 import styles from './Drawer.module.css';
 
+const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+
 const Drawer = ({ onClose, opened }) => {
   const dispatch = useDispatch();
+
+  const [isOrderComplete, setIsOrderComplete] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const { cells, totalPrice } = useSelector((state) => state.drawer);
 
   const onRemove = (a) => {
     dispatch(removeItem(a));
+  };
+
+  const onAddOrder = async () => {
+    setIsLoading(true);
+    await delay(1000);
+    dispatch(addOrder(cells));
+    dispatch(clearDrawer());
+    setIsOrderComplete(true);
+    setIsLoading(false);
   };
 
   return (
@@ -65,17 +81,25 @@ const Drawer = ({ onClose, opened }) => {
                   <b>For free</b>
                 </li>
               </ul>
-              <button className="redButton">proceed to checkout</button>
+              <button
+                disabled={isLoading}
+                onClick={onAddOrder}
+                className="redButton"
+              >
+                proceed to checkout
+              </button>
             </div>
           </>
         ) : (
           <Info
             title={
-              false
-                ? `Your order #1 has been successfully completed`
+              isOrderComplete
+                ? `Thank you for your purchase. You can see the order set in the section 'Profile'.`
                 : 'You have no items in your shopping bag'
             }
-            image={false ? 'img/success_icon.png' : 'img/empty_bag.png'}
+            image={
+              isOrderComplete ? 'img/success_icon.png' : 'img/empty_bag.png'
+            }
           />
         )}
       </div>

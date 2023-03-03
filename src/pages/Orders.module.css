@@ -28,6 +28,16 @@
   min-height: 80vh;
 }
 
+.h4 {
+  font-size: 22px;
+  font-weight: 400;
+  margin-bottom: 20px;
+}
+
+.span {
+  font-weight: 600;
+}
+
 @media (max-width: 575px) {
   .order {
     margin: 20px 15px;
@@ -37,5 +47,8 @@
   }
   .block {
     margin: 20px 0;
+  }
+  .h4 {
+    font-size: 20px;
   }
 }
